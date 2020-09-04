@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" this:Main.in_ContentEmailFolderPath="emailcontent" this:Main.in_EmailHostname="localhost" this:Main.in_EmailPort="25" this:Main.in_EmailUseSSL="False" this:Main.in_ListOfRecipients="[new List(Of MailboxAddress)]" this:Main.in_ListOfSenders="[new List(Of MailboxAddress)]" this:Main.in_CCAddresses="[new List(Of MailboxAddress)]" this:Main.in_BCCAddresses="[new List(Of MailboxAddress)]" this:Main.in_ReplyToAddresses="[new List(Of MailboxAddress)]" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:m="clr-namespace:MimeKit;assembly=MimeKit" xmlns:m1="clr-namespace:MailKit;assembly=MailKit" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mns="clr-namespace:MailKit.Net.Smtp;assembly=MailKit" xmlns:ms="clr-namespace:MailKit.Security;assembly=MailKit" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:st="clr-namespace:System.Threading;assembly=mscorlib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" this:Main.in_ContentEmailFolderPath="emailcontent" this:Main.in_EmailHostname="localhost" this:Main.in_EmailPort="25" this:Main.in_EmailUseSSL="False" this:Main.in_ListOfRecipients="[new List(Of MailboxAddress)]" this:Main.in_ListOfSenders="[new List(Of MailboxAddress)]" this:Main.in_CCAddresses="[new List(Of MailboxAddress)]" this:Main.in_BCCAddresses="[new List(Of MailboxAddress)]" this:Main.in_ReplyToAddresses="[new List(Of MailboxAddress)]" this:Main.in_AttachmentList="[new List(of String)]" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:m="clr-namespace:MimeKit;assembly=MimeKit" xmlns:m1="clr-namespace:MailKit;assembly=MailKit" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mns="clr-namespace:MailKit.Net.Smtp;assembly=MailKit" xmlns:ms="clr-namespace:MailKit.Security;assembly=MailKit" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:st="clr-namespace:System.Threading;assembly=mscorlib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_ContentEmailFolderPath" Type="InArgument(x:String)" />
     <x:Property Name="in_EmailHostname" Type="InArgument(x:String)" />
@@ -12,6 +12,7 @@
     <x:Property Name="in_BCCAddresses" Type="InArgument(scg:List(m:MailboxAddress))" />
     <x:Property Name="in_ReplyToAddresses" Type="InArgument(scg:List(m:MailboxAddress))" />
     <x:Property Name="in_Subject" Type="InArgument(x:String)" />
+    <x:Property Name="in_AttachmentList" Type="InArgument(scg:List(x:String))" />
   </x:Members>
   <this:Main.in_Subject>
     <InArgument x:TypeArguments="x:String">
@@ -21,7 +22,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>816,3816.8</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>816,3431.2</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="50">
@@ -53,6 +54,8 @@
       <x:String>System.Threading</x:String>
       <x:String>MailKit.Security</x:String>
       <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>UiPath.Mail.SMTP.Activities</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -79,15 +82,18 @@
       <AssemblyReference>UiPath.Mail</AssemblyReference>
       <AssemblyReference>UiPath.CV</AssemblyReference>
       <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="644.8,3652" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="644.8,3266.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch sap2010:Annotation.AnnotationText="Send EMail with Inline images and Styles via SMTP&#xD;&#xA;https://github.com/andresm9" DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="603.2,3559.2" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <TryCatch sap2010:Annotation.AnnotationText="Send EMail with Inline images and Styles via SMTP&#xA;https://github.com/andresm9" DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="603.2,3173.6" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Variables>
         <Variable x:TypeArguments="s:String[]" Name="arrImages" />
       </TryCatch.Variables>
@@ -97,7 +103,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <TryCatch.Try>
-        <Sequence DisplayName="Process" sap:VirtualizedContainerService.HintSize="566.4,3284" sap2010:WorkflowViewState.IdRef="Sequence_2">
+        <Sequence DisplayName="Process" sap:VirtualizedContainerService.HintSize="566.4,2898.4" sap2010:WorkflowViewState.IdRef="Sequence_2">
           <Sequence.Variables>
             <Variable x:TypeArguments="x:String" Name="HTMLBody" />
             <Variable x:TypeArguments="m:MimeMessage" Name="message" />
@@ -139,7 +145,7 @@
               </Assign.Value>
             </Assign>
           </Sequence>
-          <Sequence DisplayName="Build Objects" sap:VirtualizedContainerService.HintSize="524.8,1384.8" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <Sequence DisplayName="Build Objects" sap:VirtualizedContainerService.HintSize="524.8,999.2" sap2010:WorkflowViewState.IdRef="Sequence_4">
             <Sequence.Variables>
               <Variable x:TypeArguments="m:BodyBuilder" Name="bodyBuilder" />
             </Sequence.Variables>
@@ -220,7 +226,7 @@
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
             </ui:ReadTextFile>
-            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each image in Array" sap:VirtualizedContainerService.HintSize="384,531.2" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[arrImages]">
+            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each image in Array" sap:VirtualizedContainerService.HintSize="384,52.8" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[arrImages]">
               <ui:ForEach.Body>
                 <ActivityAction x:TypeArguments="x:String">
                   <ActivityAction.Argument>
@@ -269,7 +275,37 @@
               </ui:ForEach.Body>
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:ForEach>
+            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each file in Attachment list, add to Message" sap:VirtualizedContainerService.HintSize="384,52.8" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[in_AttachmentList]">
+              <ui:ForEach.Body>
+                <ActivityAction x:TypeArguments="x:String">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="x:String" Name="attachment" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="278.4,226.4" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <InvokeMethod DisplayName="Add each List element to Attachments" sap:VirtualizedContainerService.HintSize="236.8,133.6" sap2010:WorkflowViewState.IdRef="InvokeMethod_11" MethodName="Add">
+                      <InvokeMethod.TargetObject>
+                        <InArgument x:TypeArguments="m:AttachmentCollection">[bodyBuilder.Attachments]</InArgument>
+                      </InvokeMethod.TargetObject>
+                      <InArgument x:TypeArguments="x:String">
+                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="attachment" />
+                      </InArgument>
+                    </InvokeMethod>
+                  </Sequence>
+                </ActivityAction>
+              </ui:ForEach.Body>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                   <x:Boolean x:Key="IsPinned">False</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
