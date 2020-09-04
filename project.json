@@ -1,7 +1,7 @@
 {
-  "name": "RichEmail",
-  "description": "Blank Process",
-  "main": "SendRichEmail.xaml",
+  "name": "SendHTMLEmail",
+  "description": "Send Email with Inline Images and styles via SMTP",
+  "main": "SendHTMLEmail.xaml",
   "dependencies": {
     "UiPath.Excel.Activities": "[2.9.0-preview]",
     "UiPath.Mail.Activities": "[1.9.0-preview]",

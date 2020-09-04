@@ -1,6 +1,6 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Test" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="816,614.4" sap2010:WorkflowViewState.IdRef="Test_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:m="clr-namespace:MimeKit;assembly=MimeKit" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Test" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="816,1245.6" sap2010:WorkflowViewState.IdRef="Test_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:m="clr-namespace:MimeKit;assembly=MimeKit" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
-    <sco:Collection x:TypeArguments="x:String">
+    <scg:List x:TypeArguments="x:String" Capacity="23">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -24,10 +24,10 @@
       <x:String>System.Windows.Markup</x:String>
       <x:String>MailKit</x:String>
       <x:String>MimeKit</x:String>
-    </sco:Collection>
+    </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <sco:Collection x:TypeArguments="AssemblyReference">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="23">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -51,24 +51,107 @@
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>MailKit</AssemblyReference>
       <AssemblyReference>MimeKit</AssemblyReference>
-    </sco:Collection>
+    </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Test" sap:VirtualizedContainerService.HintSize="375.2,180.8" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Test" sap:VirtualizedContainerService.HintSize="375.2,1080.8" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="scg:List(m:MailboxAddress)" Name="ListOfRecipients" />
+      <Variable x:TypeArguments="scg:List(m:MailboxAddress)" Name="Sender" />
+      <Variable x:TypeArguments="scg:List(m:MailboxAddress)" Name="ListOfCCRecipients" />
+      <Variable x:TypeArguments="scg:List(m:MailboxAddress)" Name="ListOfBCCRecipients" />
+      <Variable x:TypeArguments="scg:List(m:MailboxAddress)" Name="ReplyTo" />
+      <Variable x:TypeArguments="x:String" Name="Subject" />
+      <Variable x:TypeArguments="x:String" Name="Hostname" />
+      <Variable x:TypeArguments="x:Int32" Name="ServerPort" />
+      <Variable x:TypeArguments="x:String" Name="FolderPath" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendRichEmail workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="SendRichEmail.xaml">
+    <Assign DisplayName="Path with HTML Template and images" sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[FolderPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Path.GetFullPath("emailcontent")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Create list of Recipients" sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(m:MailboxAddress)">[ListOfRecipients]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(m:MailboxAddress)">[new List(of MailboxAddress) from { new MailboxAddress("Recipient 1", "recipient1@example.com"), new MailboxAddress("recipient2@example.com")}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Create the Sender" sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(m:MailboxAddress)">[Sender]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(m:MailboxAddress)">[new List(of MailboxAddress) from { new MailboxAddress("The Sender", "sender@example.com")}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Create list of CC Recipients" sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(m:MailboxAddress)">[ListOfCCRecipients]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(m:MailboxAddress)">[new List(of MailboxAddress) from { new MailboxAddress("Recipient 3", "recipient3@example.com"), new MailboxAddress("recipient4@example.com")}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Create list of BCC Recipients" sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(m:MailboxAddress)">[ListOfBCCRecipients]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(m:MailboxAddress)">[new List(of MailboxAddress) from { new MailboxAddress("Recipient 5", "recipient5@example.com")}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="OPTIONAL - Reply to Addresses" sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(m:MailboxAddress)">[ReplyTo]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(m:MailboxAddress)">[new List(Of MailboxAddress) from { new MailboxAddress("replyto@example.com")}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Subject" sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[Subject]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">Hey, Check this example from Colombia</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[Hostname]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">localhost</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="333.6,60" sap2010:WorkflowViewState.IdRef="Assign_10">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[ServerPort]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">25</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendHTMLEmail workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="SendHTMLEmail.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_ContentEmailFolderPath">
-          <Literal x:TypeArguments="x:String">emailcontent</Literal>
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="FolderPath" />
         </InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="in_EmailHostname">
-          <Literal x:TypeArguments="x:String">localhost</Literal>
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Hostname" />
         </InArgument>
         <InArgument x:TypeArguments="x:Int32" x:Key="in_EmailPort">
-          <Literal x:TypeArguments="x:Int32" Value="25" />
+          <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="ServerPort" />
         </InArgument>
         <InArgument x:TypeArguments="x:Boolean" x:Key="in_EmailUseSSL">
           <Literal x:TypeArguments="x:Boolean" />
@@ -76,22 +159,22 @@
         <InArgument x:TypeArguments="x:String" x:Key="in_LoginUsername" />
         <InArgument x:TypeArguments="x:String" x:Key="in_LoginPassword" />
         <InArgument x:TypeArguments="scg:List(m:MailboxAddress)" x:Key="in_ListOfRecipients">
-          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="new List(Of MailboxAddress) from {new MailboxAddress(&quot;thereceier@colombia.com&quot;)}" />
+          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="ListOfRecipients" />
         </InArgument>
         <InArgument x:TypeArguments="scg:List(m:MailboxAddress)" x:Key="in_ListOfSenders">
-          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="new List(Of MailboxAddress) from {new MailboxAddress(&quot;thesender@colombia.com&quot;)}" />
+          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="Sender" />
         </InArgument>
         <InArgument x:TypeArguments="scg:List(m:MailboxAddress)" x:Key="in_CCAddresses">
-          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="new List(Of MailboxAddress)" />
+          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="ListOfCCRecipients" />
         </InArgument>
         <InArgument x:TypeArguments="scg:List(m:MailboxAddress)" x:Key="in_BCCAddresses">
-          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="new List(Of MailboxAddress)" />
+          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="ListOfBCCRecipients" />
         </InArgument>
         <InArgument x:TypeArguments="scg:List(m:MailboxAddress)" x:Key="in_ReplyToAddresses">
-          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="new List(Of MailboxAddress)" />
+          <mva:VisualBasicValue x:TypeArguments="scg:List(m:MailboxAddress)" ExpressionText="ReplyTo" />
         </InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="in_Subject">
-          <Literal x:TypeArguments="x:String">Hey, Check this example from Colombia</Literal>
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Subject" />
         </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
