@@ -15,7 +15,7 @@ Make sure you have imported these namespaces before start:
 - Mailkit
 - Mimekit
 
-![Namespaces](documentation\image-20200901011214809.png)
+![Namespaces](https://github.com/andresm9/SendRichEmailUiPath/blob/master/documentation/image-20200901011214809.png)
 
 ### HTML Content
 
