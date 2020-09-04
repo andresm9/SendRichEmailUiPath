@@ -17,6 +17,12 @@ Make sure you have imported these namespaces before start:
 
 ![Namespaces](https://github.com/andresm9/SendRichEmailUiPath/blob/master/documentation/image-20200901011214809.png)
 
+Create your HTML Template with images and Styles (Take into account limitations about what content you can put in your email). Provide to Workflow the path where your Template and images are.  
+
+### How it works
+
+Worlflow will create an array of Images (images in the Folder where you HTML is) and will replace by a ContentID inside HTML Template. After that, Workflow will create the Mime Message with proper Headers. Finally the Send steps works as usual.
+
 ### HTML Content
 
 HTML Content depends on what kind of email you are sending. Take into Account best practices and techniques to get a Better HTML Email compatible with your target email client.
